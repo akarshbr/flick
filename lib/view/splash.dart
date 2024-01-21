@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flick/view/select_your_language.dart';
 import 'package:flutter/material.dart';
 
 class Splash extends StatefulWidget {
@@ -11,7 +12,9 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   @override
   void initState() {
-    Timer(const Duration(seconds: 4), () {});
+    Timer(const Duration(seconds: 4), () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SelectLanguage()));
+    });
     super.initState();
   }
 
