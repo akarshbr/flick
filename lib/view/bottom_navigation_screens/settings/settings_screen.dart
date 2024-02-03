@@ -1,5 +1,6 @@
 import 'package:flick/utils/constants.dart';
 import 'package:flick/view/custom_widget/icon_and_textButton.dart';
+import 'package:flick/view/login_signup/login/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,9 @@ class SettingsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push((context), MaterialPageRoute(builder: (context) => LoginScreen()));
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.greenAccent.shade100,
                 ),

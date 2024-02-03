@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flick/controller/language_provider.dart';
-import 'package:flick/dummy_data/bagroundImage.dart';
+import 'package:flick/dummy_data/backgroundImage.dart';
 import 'package:flick/dummy_data/langauges.dart';
 import 'package:flick/view/current_Screen/current_screen.dart';
 import 'package:flutter/material.dart';

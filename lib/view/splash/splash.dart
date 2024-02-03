@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flick/view/select_language/select_your_language.dart';
 import 'package:flutter/material.dart';
 
-import '../../dummy_data/bagroundImage.dart';
+import '../../dummy_data/backgroundImage.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});

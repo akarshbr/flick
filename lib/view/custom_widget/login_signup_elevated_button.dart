@@ -1,3 +1,4 @@
+import 'package:flick/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class LoginSignupElevatedButton extends StatelessWidget {
@@ -7,6 +8,10 @@ class LoginSignupElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(onPressed: () {}, child: Text(text));
+    return ElevatedButton(
+      onPressed: () {},
+      child: Text(text,style: TextStyle(color: buttonTextColor1,fontWeight: FontWeight.bold)),
+      style: ElevatedButton.styleFrom(backgroundColor: buttonBColor1.withOpacity(.5)),
+    );
   }
 }

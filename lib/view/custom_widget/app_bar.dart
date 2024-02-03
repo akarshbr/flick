@@ -1,3 +1,4 @@
+import 'package:flick/utils/constants.dart';
 import 'package:flick/view/custom_widget/bottom_navigaton.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ class AppBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      title: const Image(height: 40, image: AssetImage("assets/logo/flick_white.png")),
+      title: const Image(height: appBarHeight, image: AssetImage("assets/logo/flick_white.png")),
       actions: [
         ValueListenableBuilder(
             valueListenable: indexChangeNotifier,
