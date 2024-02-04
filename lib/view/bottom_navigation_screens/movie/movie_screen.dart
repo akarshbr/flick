@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:flick/view/custom_widget/category_card.dart';
 import 'package:flick/view/custom_widget/category_title.dart';
 import 'package:flutter/material.dart';
-
 import '../../../dummy_data/posters.dart';
 import '../../../dummy_data/category.dart';
 
@@ -12,15 +9,13 @@ class MovieScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Random random = Random();
-    int randomImageIndex =random.nextInt(posters.length);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 10),
-            child: CategoryTitle(categoryTitle: category[0]),
+            child: CategoryTitle(categoryTitle: category[0], index: 0),
           ),
           LimitedBox(
             maxHeight: 200,
@@ -33,7 +28,10 @@ class MovieScreen extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10),
-            child: CategoryTitle(categoryTitle: category[1]),
+            child: CategoryTitle(
+              categoryTitle: category[1],
+              index: 1,
+            ),
           ),
           LimitedBox(
             maxHeight: 200,
@@ -46,7 +44,10 @@ class MovieScreen extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10),
-            child: CategoryTitle(categoryTitle: category[5]),
+            child: CategoryTitle(
+              categoryTitle: category[5],
+              index: 5,
+            ),
           ),
           LimitedBox(
             maxHeight: 200,
@@ -59,7 +60,7 @@ class MovieScreen extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10),
-            child: CategoryTitle(categoryTitle: category[8]),
+            child: CategoryTitle(categoryTitle: category[8], index: 8),
           ),
           LimitedBox(
             maxHeight: 200,

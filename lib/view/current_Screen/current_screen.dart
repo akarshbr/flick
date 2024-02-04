@@ -22,7 +22,7 @@ class CurrentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: currentScreenBGColor,
       appBar: const PreferredSize(preferredSize: appBarPreferredSize, child: AppBarWidget()),
       body: ValueListenableBuilder(
           valueListenable: indexChangeNotifier,

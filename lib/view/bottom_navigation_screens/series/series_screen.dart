@@ -20,7 +20,7 @@ class SeriesScreen extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 10),
-          child: CategoryTitle(categoryTitle: category[0]),
+          child: CategoryTitle(categoryTitle: category[0], index: 0),
         ),
         LimitedBox(
           maxHeight: 200,
@@ -33,7 +33,7 @@ class SeriesScreen extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 10),
-          child: CategoryTitle(categoryTitle: category[2]),
+          child: CategoryTitle(categoryTitle: category[2], index: 2),
         ),
         LimitedBox(
           maxHeight: 200,

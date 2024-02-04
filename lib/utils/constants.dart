@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+///settings screen
 const double settingsIconSize = 30;
 const double settingsTextSize = 30;
 const Color settingsTextColor = Colors.white;
@@ -27,3 +28,6 @@ const Color fillClr = Colors.white;
 ///checkbox widget
 const Color checkboxTextColor = Colors.white;
 const Color checkboxIconColor = Colors.white;
+
+///current screen
+const Color currentScreenBGColor =Colors.black;
