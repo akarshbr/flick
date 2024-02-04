@@ -1,4 +1,5 @@
 import 'package:flick/utils/constants.dart';
+import 'package:flick/view/login_signup/signup/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginSignupElevatedButton extends StatelessWidget {
@@ -9,9 +10,13 @@ class LoginSignupElevatedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
-      child: Text(text,style: TextStyle(color: buttonTextColor1,fontWeight: FontWeight.bold)),
+      onPressed: () {
+        if (text == "Signup") {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpScreen()));
+        }
+      },
       style: ElevatedButton.styleFrom(backgroundColor: buttonBColor1.withOpacity(.5)),
+      child: Text(text, style: const TextStyle(color: buttonTextColor1, fontWeight: FontWeight.bold)),
     );
   }
 }

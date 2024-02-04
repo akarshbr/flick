@@ -23,3 +23,7 @@ const Color hintTextColor = Colors.white;
 const Color inputTextColor = Colors.white;
 const Color hintTextClr = Colors.white;
 const Color fillClr = Colors.white;
+
+///checkbox widget
+const Color checkboxTextColor = Colors.white;
+const Color checkboxIconColor = Colors.white;
