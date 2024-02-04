@@ -1,6 +1,8 @@
 import 'package:flick/utils/constants.dart';
 import 'package:flick/view/custom_widget/login_signup_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../controller/password_visibility_controller.dart';
 import '../../custom_widget/login_signup_elevated_button.dart';
 import '../../custom_widget/login_signup_text_field.dart';
 
@@ -25,8 +27,35 @@ class LoginScreen extends StatelessWidget {
           children: [
             LoginSignupTextField(
                 hintText: 'username or email', controller: emailUsernameController),
-            LoginSignupTextField(hintText: "password", controller: passwordController),
-            Padding(
+            Consumer<PasswordVisibilityProvider>(builder: (context, visibilityProvider1, _) {
+              return TextFormField(
+                obscureText: visibilityProvider1.visibility,
+                controller: passwordController,
+                cursorColor: Colors.white,
+                style: const TextStyle(color: inputTextColor),
+                decoration: InputDecoration(
+                    filled: true,
+                    fillColor: fillClr.withOpacity(.3),
+                    hintText: "password",
+                    hintStyle: const TextStyle(color: hintTextClr),
+                    focusedBorder:
+                    const UnderlineInputBorder(borderSide: BorderSide(color: fillClr)),
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          visibilityProvider1.iconPressed();
+                        },
+                        icon: visibilityProvider1.visibility
+                            ? Icon(
+                          Icons.visibility,
+                          color: checkboxIconColor,
+                        )
+                            : Icon(
+                          Icons.visibility_off,
+                          color: checkboxIconColor,
+                        ))),
+              );
+            }),
+            const Padding(
               padding: EdgeInsets.only(left: 10),
               child: Row(
                 children: [
