@@ -1,4 +1,5 @@
 import 'package:flick/controller/language_provider.dart';
+import 'package:flick/controller/password_visibility_controller.dart';
 import 'package:flick/controller/terms_and_condition_provider.dart';
 import 'package:flick/view/current_Screen/current_screen.dart';
 import 'package:flick/view/splash/splash.dart';
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
-        ChangeNotifierProvider(create: (context) => TermsAndConditionProvider())
+        ChangeNotifierProvider(create: (context) => TermsAndConditionProvider()),
+        ChangeNotifierProvider(create: (context) => PasswordVisibilityProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
