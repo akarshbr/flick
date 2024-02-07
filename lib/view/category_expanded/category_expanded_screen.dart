@@ -30,7 +30,7 @@ class CategoryExpandedScreen extends StatelessWidget {
               itemCount: posters.length,
                 gridDelegate:  const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200,mainAxisSpacing: 10,childAspectRatio: 1/1.6),
                 itemBuilder: (context, index) {
-                  return CategoryCard(movieImage: posters[index]);
+                  return MovieCard(movieImage: posters[index]);
                 }),
           )
         ],

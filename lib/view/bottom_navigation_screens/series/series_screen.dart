@@ -28,7 +28,7 @@ class SeriesScreen extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
             children: List.generate(
-                10, (index) => CategoryCard(key: ValueKey(index), movieImage: posters[index])),
+                10, (index) => MovieCard(key: ValueKey(index), movieImage: posters[index])),
           ),
         ),
         Padding(
@@ -41,7 +41,7 @@ class SeriesScreen extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
             children: List.generate(
-                10, (index) => CategoryCard(key: ValueKey(index), movieImage: posters[index])),
+                10, (index) => MovieCard(key: ValueKey(index), movieImage: posters[index])),
           ),
         )
       ],

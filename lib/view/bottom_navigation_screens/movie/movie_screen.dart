@@ -1,5 +1,6 @@
 import 'package:flick/view/custom_widget/category_card.dart';
 import 'package:flick/view/custom_widget/category_title.dart';
+import 'package:flick/view/movie_details/movie_details_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../dummy_data/posters.dart';
 import '../../../dummy_data/category.dart';
@@ -23,7 +24,8 @@ class MovieScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               children: List.generate(
-                  10, (index) => CategoryCard(key: ValueKey(index), movieImage: posters[index])),
+                  10,
+                  (index) => MovieCard(key: ValueKey(index), movieImage: posters[index])),
             ),
           ),
           Padding(
@@ -39,7 +41,7 @@ class MovieScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               children: List.generate(
-                  10, (index) => CategoryCard(key: ValueKey(index), movieImage: posters[index])),
+                  10, (index) => MovieCard(key: ValueKey(index), movieImage: posters[index])),
             ),
           ),
           Padding(
@@ -55,7 +57,7 @@ class MovieScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               children: List.generate(
-                  10, (index) => CategoryCard(key: ValueKey(index), movieImage: posters[index])),
+                  10, (index) => MovieCard(key: ValueKey(index), movieImage: posters[index])),
             ),
           ),
           Padding(
@@ -68,7 +70,7 @@ class MovieScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               children: List.generate(
-                  10, (index) => CategoryCard(key: ValueKey(index), movieImage: posters[index])),
+                  10, (index) => MovieCard(key: ValueKey(index), movieImage: posters[index])),
             ),
           )
         ],

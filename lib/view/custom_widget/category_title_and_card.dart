@@ -18,7 +18,7 @@ class TitleAndCard extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 10),
-          child: CategoryTitle(categoryTitle: title),
+          child: CategoryTitle(categoryTitle: title, index: null,),
         ),
         LimitedBox(
           maxHeight: 200,
@@ -26,7 +26,7 @@ class TitleAndCard extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
             children: List.generate(
-                10, (index) => CategoryCard(key: ValueKey(index), movieImage: card)),
+                10, (index) => MovieCard(key: ValueKey(index), movieImage: card)),
           ),
         )
       ],
