@@ -1,7 +1,9 @@
+import 'package:flick/controller/cast_crew_controller.dart';
 import 'package:flick/controller/language_provider.dart';
+import 'package:flick/controller/movie_controller.dart';
+import 'package:flick/controller/movie_details_controller.dart';
 import 'package:flick/controller/password_visibility_controller.dart';
 import 'package:flick/controller/terms_and_condition_provider.dart';
-import 'package:flick/view/current_Screen/current_screen.dart';
 import 'package:flick/view/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +21,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
         ChangeNotifierProvider(create: (context) => TermsAndConditionProvider()),
-        ChangeNotifierProvider(create: (context) => PasswordVisibilityProvider())
+        ChangeNotifierProvider(create: (context) => PasswordVisibilityProvider()),
+        ChangeNotifierProvider(create: (context) => MovieController()),
+        ChangeNotifierProvider(create: (context) => MovieDetailsController()),
+        ChangeNotifierProvider(create: (context)=>CastCrewController())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

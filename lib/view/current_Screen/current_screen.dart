@@ -1,6 +1,8 @@
+import 'package:flick/controller/movie_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flick/view/custom_widget/app_bar.dart';
 import 'package:flick/view/custom_widget/bottom_navigaton.dart';
+import 'package:provider/provider.dart';
 import '../../utils/constants.dart';
 import '../bottom_navigation_screens/movie/movie_screen.dart';
 import '../bottom_navigation_screens/series/series_screen.dart';
@@ -27,6 +29,9 @@ class CurrentScreen extends StatelessWidget {
       body: ValueListenableBuilder(
           valueListenable: indexChangeNotifier,
           builder: (context, index, _) {
+            if(index==0){
+              Provider.of<MovieController>(context,listen: false).fetchData();
+            }
             return _screens[index];
           }),
       bottomNavigationBar: const BottomNavigationWidget(),

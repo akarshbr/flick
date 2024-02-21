@@ -13,14 +13,14 @@ class MovieCard extends StatelessWidget {
         Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetailsScreen()));
       },
       child: Container(
-        height: 400,
-        width: 120, // Adjust width as needed
+        height: 200,
+        width: 130, // Adjust width as needed
         margin: const EdgeInsets.only(left: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           image: DecorationImage(
-            image: AssetImage(movieImage),
-            fit: BoxFit.fitHeight,
+            image: NetworkImage(movieImage),
+            fit: BoxFit.cover,
           ),
         ),
       ),
