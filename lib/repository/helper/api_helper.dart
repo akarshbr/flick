@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flick/config/config.dart';
+import 'package:flick/config/app_config.dart';
 import 'package:http/http.dart' as http;
 
 class ApiHelper {
   static getData({required String endpoint}) async {
     log("Api Helper class -> getData");
     final url = Uri.parse(AppConfig.baseURL + endpoint);
+    log("final URL -> $url");
     try {
       var response = await http.get(url);
       log("API called -> status code : ${response.statusCode}");
