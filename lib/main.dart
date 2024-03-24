@@ -1,17 +1,17 @@
-import 'package:flick/controller/cast_crew_controller.dart';
-import 'package:flick/controller/language_provider.dart';
-import 'package:flick/controller/movie_controller.dart';
-import 'package:flick/controller/movie_details_controller.dart';
-import 'package:flick/controller/password_visibility_controller.dart';
-import 'package:flick/controller/series_controller.dart';
-import 'package:flick/controller/terms_and_condition_provider.dart';
-import 'package:flick/view/splash/splash.dart';
+import 'package:flick/presentation/movie_screen/controller/cast_crew_controller.dart';
+import 'package:flick/presentation/select_language_screen/controller/language_controller.dart';
+import 'package:flick/presentation/movie_screen/controller/movie_controller.dart';
+import 'package:flick/presentation/movie_details_screen/controller/movie_details_controller.dart';
+import 'package:flick/presentation/login_signup_screens/controller/password_visibility_controller.dart';
+import 'package:flick/presentation/series_screen/controller/series_controller.dart';
+import 'package:flick/presentation/login_signup_screens/controller/terms_and_condition_provider.dart';
+import 'package:flick/presentation/splash_screen/view/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => LanguageProvider()),
+    ChangeNotifierProvider(create: (context) => LanguageController()),
     ChangeNotifierProvider(create: (context) => TermsAndConditionProvider()),
     ChangeNotifierProvider(create: (context) => PasswordVisibilityProvider()),
     ChangeNotifierProvider(create: (context) => MovieController()),
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const Splash(),
+      home: const SplashScreen(),
       theme: ThemeData(appBarTheme: const AppBarTheme(color: Colors.black)),
     );
   }
