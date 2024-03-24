@@ -1,32 +1,27 @@
-import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flick/config/app_config.dart';
+import 'package:flick/core/utils/app_utils.dart';
 import 'package:flick/repository/api/series_screen/model/series_model.dart';
+import 'package:flick/repository/api/series_screen/service/series_service.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class SeriesController extends ChangeNotifier {
   late SeriesModel seriesModel = SeriesModel();
-  static const apiKey = "6d2b9681525d9d62b47c2f7445f894c2";
   bool isLoading = false;
-  int? code;
 
-  fetchData() async {
+  fetchSeriesData(context) async {
     isLoading = true;
     notifyListeners();
-    final url = Uri.parse(
-        "https://api.themoviedb.org/3/discover/tv?api_key=$apiKey&sort_by=popularity.desc");
-    final response = await http.get(url);
-    log("${response.statusCode}controller");
-    code = response.statusCode;
-    Map<String, dynamic> decodedData = {};
-    if (response.statusCode == 200) {
-      decodedData = jsonDecode(response.body);
-    } else {
-      log("failed");
-    }
-    seriesModel = SeriesModel.fromJson(decodedData);
-    isLoading = false;
-    notifyListeners();
+    log("Series Controller -> fetchSeriesData()");
+    SeriesService.fetchSeries(AppConfig.apiKey).then((value) {
+      if (value["status"] == 1) {
+        seriesModel = SeriesModel.fromJson(value["data"]);
+        isLoading = false;
+      } else {
+        AppUtils.oneTimeSnackBar("Error", context: context);
+      }
+      notifyListeners();
+    });
   }
 }

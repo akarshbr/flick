@@ -14,7 +14,7 @@ class MovieController extends ChangeNotifier {
   fetchMovieData(context) async {
     isLoading = true;
     notifyListeners();
-    log("Profile controller -> fetchMovieData()");
+    log("Movie controller -> fetchMovieData()");
     MovieService.fetchMovie(AppConfig.apiKey).then((value) {
       if (value["status"] == 1) {
         movieModel = MovieModel.fromJson(value["data"]);
