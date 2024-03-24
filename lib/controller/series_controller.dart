@@ -1,22 +1,21 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flick/model/series_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../model/movie_model.dart';
-
-class MovieController extends ChangeNotifier {
-  late MovieModel movieModel = MovieModel();
-  int? code;
+class SeriesController extends ChangeNotifier {
+  late SeriesModel seriesModel = SeriesModel();
   static const apiKey = "6d2b9681525d9d62b47c2f7445f894c2";
   bool isLoading = false;
+  int? code;
 
-  Future<void> fetchData() async {
+  fetchData() async {
     isLoading = true;
     notifyListeners();
     final url = Uri.parse(
-        "https://api.themoviedb.org/3/discover/movie?api_key=$apiKey&include_adult=true&sort_by=popularity.desc");
+        "https://api.themoviedb.org/3/discover/tv?api_key=$apiKey&sort_by=popularity.desc");
     final response = await http.get(url);
     log("${response.statusCode}controller");
     code = response.statusCode;
@@ -26,7 +25,7 @@ class MovieController extends ChangeNotifier {
     } else {
       log("failed");
     }
-    movieModel = MovieModel.fromJson(decodedData);
+    seriesModel = SeriesModel.fromJson(decodedData);
     isLoading = false;
     notifyListeners();
   }

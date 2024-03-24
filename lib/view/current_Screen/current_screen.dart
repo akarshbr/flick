@@ -29,8 +29,8 @@ class CurrentScreen extends StatelessWidget {
       body: ValueListenableBuilder(
           valueListenable: indexChangeNotifier,
           builder: (context, index, _) {
-            if(index==0){
-              Provider.of<MovieController>(context,listen: false).fetchData();
+            if(index == 1){
+
             }
             return _screens[index];
           }),

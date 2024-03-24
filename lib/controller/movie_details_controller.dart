@@ -1,32 +1,29 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flick/model/movie_details_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../model/movie_model.dart';
-
-class MovieController extends ChangeNotifier {
-  late MovieModel movieModel = MovieModel();
-  int? code;
+class MovieDetailsController extends ChangeNotifier {
+  late MovieDetailsModel movieDetailsModel=MovieDetailsModel();
   static const apiKey = "6d2b9681525d9d62b47c2f7445f894c2";
   bool isLoading = false;
+  int? code;
 
-  Future<void> fetchData() async {
+  fetchMovieDetails(int? movieID) async {
     isLoading = true;
     notifyListeners();
-    final url = Uri.parse(
-        "https://api.themoviedb.org/3/discover/movie?api_key=$apiKey&include_adult=true&sort_by=popularity.desc");
+    final url = Uri.parse("https://api.themoviedb.org/3/movie/$movieID?api_key=$apiKey");
     final response = await http.get(url);
-    log("${response.statusCode}controller");
-    code = response.statusCode;
+    log("${response.statusCode}");
     Map<String, dynamic> decodedData = {};
     if (response.statusCode == 200) {
       decodedData = jsonDecode(response.body);
     } else {
-      log("failed");
+      throw Exception("failed");
     }
-    movieModel = MovieModel.fromJson(decodedData);
+    movieDetailsModel = MovieDetailsModel.fromJson(decodedData);
     isLoading = false;
     notifyListeners();
   }

@@ -6,7 +6,7 @@ import 'package:flick/view/custom_widget/movie_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../custom_widget/category_title.dart';
+import 'category_title.dart';
 
 class CategoryExpandedScreen extends StatelessWidget {
   const CategoryExpandedScreen({super.key, required this.index});

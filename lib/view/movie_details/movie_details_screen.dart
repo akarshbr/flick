@@ -1,12 +1,33 @@
+import 'package:flick/controller/cast_crew_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../custom_widget/cast_crew_designation.dart';
+import 'package:provider/provider.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
-  const MovieDetailsScreen({super.key});
+  const MovieDetailsScreen({
+    super.key,
+    required this.title,
+    required this.director,
+    required this.runTime,
+     this.releaseDate,
+    required this.overview,
+    required this.poster,
+    required this.backdropPath, required this.movieID,
+  });
+
+  //final int movieID;
+  final String poster;
+  final String backdropPath;
+  final String title;
+  final String? director;
+  final int? runTime;
+  final DateTime? releaseDate;
+  final String overview;
+  final int? movieID;
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Container(
         color: Colors.white,
@@ -24,8 +45,9 @@ class MovieDetailsScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.width * .55,
                       decoration: BoxDecoration(
+                        color: Colors.grey,
                           image: DecorationImage(
-                              image: AssetImage("assets/details/Pulp-Fiction-ballo-2.jpg"),
+                              image: NetworkImage(backdropPath),
                               fit: BoxFit.cover)),
                     ),
                     IconButton(
@@ -44,36 +66,45 @@ class MovieDetailsScreen extends StatelessWidget {
                         height: 160,
                         width: 100,
                         decoration: BoxDecoration(
+                          color: Colors.blueGrey,
+                            border: Border.all(color: Colors.white,width: 4,),
                             image: DecorationImage(
-                                image: AssetImage("assets/details/pulpFiction.jpg"))),
+                                image: NetworkImage(poster),fit: BoxFit.contain)),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 160, top: 230, bottom: 20),
+                    Padding(
+                      padding: EdgeInsets.only(left: 180, top: 250, bottom: 20),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Pulp Fiction",
+                          Text(title,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w900,
+                                  decoration: TextDecoration.none)),
+                          SizedBox(height: 10),
+                          Text("Director:",
                               style: TextStyle(
                                   fontSize: 15,
                                   color: Colors.black,
                                   decoration: TextDecoration.none)),
-                          Text("Director: Quentin Tarantino",
+                          Text(director!,
                               style: TextStyle(
                                   fontSize: 15,
                                   color: Colors.black,
                                   decoration: TextDecoration.none)),
+                          SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text("Length: 140",
+                              Text("${runTime}Min",
                                   style: TextStyle(
                                       fontSize: 15,
                                       color: Colors.black,
                                       decoration: TextDecoration.none)),
                               SizedBox(width: 10),
-                              Text("Released: 1994",
+                              Text("$releaseDate",
                                   style: TextStyle(
                                       fontSize: 15,
                                       color: Colors.black,
@@ -87,15 +118,11 @@ class MovieDetailsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SliverToBoxAdapter(
+             SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.only(left: 10, right: 10),
                 child: Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit,"
-                  " sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                  "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris "
-                  "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in "
-                  "reprehenderit in voluptate velit esse cillum ",
+                  overview,
                   style:
                       TextStyle(fontSize: 20, color: Colors.black, decoration: TextDecoration.none),
                 ),
@@ -108,43 +135,44 @@ class MovieDetailsScreen extends StatelessWidget {
                 TextButton(onPressed: () {}, child: Text("Crew", style: TextStyle(fontSize: 20))),
               ],
             )),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 140,
-                width: MediaQuery.of(context).size.width,
-                child: ListView.builder(
-                  itemCount: 10,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CircleAvatar(
-                              backgroundColor: Colors.black,
-                              radius: 50,
-                              child: Icon(
-                                CupertinoIcons.person_alt_circle,
-                                color: Colors.white,
-                                size: 60,
-                              )),
-                          Text(
-                            "crewCastName",
-                            style: TextStyle(
-                                fontSize: 15, color: Colors.black, decoration: TextDecoration.none),
+            Consumer<CastCrewController>(
+              builder: (context,controller,_) {
+                controller.fetchCastCrewDetails(movieID);
+                return SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 140,
+                    width: MediaQuery.of(context).size.width,
+                    child: ListView.builder(
+                      itemCount: 10,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CircleAvatar(
+                                  backgroundColor: Colors.black,
+                                  radius: 50,
+                                  child: Image(image: NetworkImage("https://media.themoviedb.org/t/p/w300_and_h450_bestv2/${controller.castCrewModel.cast?[index].profilePath}"))),
+                              Text(
+                                "${controller.castCrewModel.cast?[index].name}",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.black, decoration: TextDecoration.none),
+                              ),
+                              Text(
+                                "${controller.castCrewModel.cast?[index].knownForDepartment}",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.black, decoration: TextDecoration.none),
+                              )
+                            ],
                           ),
-                          Text(
-                            "designation",
-                            style: TextStyle(
-                                fontSize: 15, color: Colors.black, decoration: TextDecoration.none),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
+                        );
+                      },
+                    ),
+                  ),
+                );
+              }
             ),
             SliverToBoxAdapter(
               child: SizedBox(height: 10),
@@ -171,8 +199,7 @@ class MovieDetailsScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: ElevatedButton(
                   onPressed: () {},
-                  child:
-                  Text("Rating", style: TextStyle(fontSize: 30, color: Colors.white)),
+                  child: Text("Rating", style: TextStyle(fontSize: 30, color: Colors.white)),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       minimumSize: Size.fromHeight(60),
@@ -188,8 +215,7 @@ class MovieDetailsScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: ElevatedButton(
                   onPressed: () {},
-                  child:
-                  Text("Watch Later", style: TextStyle(fontSize: 30, color: Colors.white)),
+                  child: Text("Watch Later", style: TextStyle(fontSize: 30, color: Colors.white)),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       minimumSize: Size.fromHeight(60),

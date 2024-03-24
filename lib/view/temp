@@ -213,3 +213,141 @@ class MovieScreen extends StatelessWidget {
     );
   }
 }
+
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:flick/model/movie_model.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+class MovieController extends ChangeNotifier {
+  late MovieModel movieModel;
+  late MovieModel advModel;
+  static const apiKey = "6d2b9681525d9d62b47c2f7445f894c2";
+  bool isLoading = false;
+  int? code;
+
+  void fetchActionData() async {
+    isLoading = true;
+    notifyListeners();
+    final url = Uri.parse(
+        "https://api.themoviedb.org/3/discover/movie?api_key=$apiKey&include_adult=true&include_video=false&page=1&sort_by=popularity.desc&with_genres=28");
+    final response = await http.get(url);
+    code = response.statusCode;
+    log("${response.statusCode}");
+    Map<String, dynamic> decodedData = {};
+    if (response.statusCode == 200) {
+      decodedData = jsonDecode(response.body);
+    } else {
+      throw Exception("failed");
+    }
+    movieModel = MovieModel.fromJson(decodedData);
+    isLoading = false;
+    notifyListeners();
+  }
+
+  void fetchAdventureData() async {
+    isLoading = true;
+    notifyListeners();
+    final url = Uri.parse(
+        "https://api.themoviedb.org/3/discover/movie?api_key=$apiKey&include_adult=true&include_video=false&page=1&sort_by=popularity.desc&with_genres=12");
+    final response = await http.get(url);
+    code = response.statusCode;
+    log("${response.statusCode}");
+    Map<String, dynamic> decodedData = {};
+    if (response.statusCode == 200) {
+      decodedData = jsonDecode(response.body);
+    } else {
+      throw Exception("failed");
+    }
+    advModel = MovieModel.fromJson(decodedData);
+    isLoading = false;
+    notifyListeners();
+  }
+}
+
+movie screen
+import 'package:flick/controller/movie_controller.dart';
+import 'package:flick/view/custom_widget/category_card.dart';
+import 'package:flick/view/custom_widget/category_title.dart';
+import 'package:flick/view/custom_widget/category_title_and_card.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../dummy_data/category.dart';
+
+class MovieScreen extends StatelessWidget {
+  const MovieScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Consumer<MovieController>(builder: (context, movieController, _) {
+        movieController.fetchActionData();
+        movieController.fetchAdventureData();
+        return movieController.isLoading == false
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: CategoryTitle(categoryTitle: category[0], index: 0),
+                  ),
+                  LimitedBox(
+                    maxHeight: 200,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      children: List.generate(
+                          10,
+                          (index) => MovieCard(
+                              key: ValueKey(index),
+                              movieImage:
+                                  "https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movieController.movieModel.results?[index].posterPath}")),
+                    ),
+                  ),
+                  TitleAndCard(
+                      index: 2,
+                      categoryTitle: category[2],
+                      movieImage:
+                          "https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movieController.movieModel.results?[2].posterPath}")
+                ],
+              );
+      }),
+    );
+  }
+}
+
+movie screen
+import 'package:flick/controller/movie_controller.dart';
+import 'package:flick/view/custom_widget/category_title_and_card.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../dummy_data/category.dart';
+
+class MovieScreen extends StatelessWidget {
+  const MovieScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Consumer<MovieController>(builder: (context, movieController, _) {
+        return movieController.isLoading == false
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: List.generate(category.length, (index) {
+                  return TitleAndCard(
+                    index: index,
+                    categoryTitle: category[index],
+                  );
+                }),
+              );
+      }),
+    );
+  }
+}
+https://image.tmdb.org/t/p/w600_and_h900_bestv2/${controller.movieModel.results?[index1].posterPath}

@@ -1,5 +1,7 @@
-import 'package:flick/view/category_expanded/category_expanded_screen.dart';
+import 'package:flick/controller/movie_controller.dart';
+import 'package:flick/view/custom_widget/category_expanded_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CategoryTitle extends StatelessWidget {
   const CategoryTitle({super.key, required this.categoryTitle, required this.index});
@@ -12,6 +14,7 @@ class CategoryTitle extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) =>  CategoryExpandedScreen(index: index)));
+
       },
       child: Column(
         children: [
