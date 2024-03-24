@@ -1,23 +1,25 @@
-import 'package:flick/presentation/movie_screen/controller/cast_crew_controller.dart';
-import 'package:flick/presentation/select_language_screen/controller/language_controller.dart';
-import 'package:flick/presentation/movie_screen/controller/movie_controller.dart';
-import 'package:flick/presentation/movie_details_screen/controller/movie_details_controller.dart';
+import 'package:flick/presentation/bottom_navigation_screen/controller/bottom_navigation_controller.dart';
 import 'package:flick/presentation/login_signup_screens/controller/password_visibility_controller.dart';
-import 'package:flick/presentation/series_screen/controller/series_controller.dart';
 import 'package:flick/presentation/login_signup_screens/controller/terms_and_condition_provider.dart';
+import 'package:flick/presentation/movie_details_screen/controller/movie_details_controller.dart';
+import 'package:flick/presentation/movie_screen/controller/cast_crew_controller.dart';
+import 'package:flick/presentation/movie_screen/controller/movie_controller.dart';
+import 'package:flick/presentation/select_language_screen/controller/language_controller.dart';
+import 'package:flick/presentation/series_screen/controller/series_controller.dart';
 import 'package:flick/presentation/splash_screen/view/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => BottomNavigationController()),
     ChangeNotifierProvider(create: (context) => LanguageController()),
     ChangeNotifierProvider(create: (context) => TermsAndConditionProvider()),
     ChangeNotifierProvider(create: (context) => PasswordVisibilityProvider()),
     ChangeNotifierProvider(create: (context) => MovieController()),
     ChangeNotifierProvider(create: (context) => MovieDetailsController()),
     ChangeNotifierProvider(create: (context) => CastCrewController()),
-    ChangeNotifierProvider(create: (context) => SeriesController())
+    ChangeNotifierProvider(create: (context) => SeriesController()),
   ], child: const MyApp()));
 }
 
