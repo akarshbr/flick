@@ -36,7 +36,7 @@ class Cast {
   bool? adult;
   int? gender;
   int? id;
-  KnownForDepartment? knownForDepartment;
+  String? knownForDepartment;
   String? name;
   String? originalName;
   double? popularity;
@@ -69,7 +69,7 @@ class Cast {
     adult: json["adult"],
     gender: json["gender"],
     id: json["id"],
-    knownForDepartment: knownForDepartmentValues.map[json["known_for_department"]]!,
+    knownForDepartment: json["known_for_department"],
     name: json["name"],
     originalName: json["original_name"],
     popularity: json["popularity"]?.toDouble(),
@@ -86,7 +86,7 @@ class Cast {
     "adult": adult,
     "gender": gender,
     "id": id,
-    "known_for_department": knownForDepartmentValues.reverse[knownForDepartment],
+    "known_for_department": knownForDepartment,
     "name": name,
     "original_name": originalName,
     "popularity": popularity,
@@ -98,34 +98,4 @@ class Cast {
     "department": department,
     "job": job,
   };
-}
-
-enum KnownForDepartment {
-  ACTING,
-  CAMERA,
-  DIRECTING,
-  EDITING,
-  PRODUCTION,
-  SOUND
-}
-
-final knownForDepartmentValues = EnumValues({
-  "Acting": KnownForDepartment.ACTING,
-  "Camera": KnownForDepartment.CAMERA,
-  "Directing": KnownForDepartment.DIRECTING,
-  "Editing": KnownForDepartment.EDITING,
-  "Production": KnownForDepartment.PRODUCTION,
-  "Sound": KnownForDepartment.SOUND
-});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

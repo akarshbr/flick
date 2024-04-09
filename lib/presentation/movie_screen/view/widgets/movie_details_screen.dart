@@ -1,6 +1,6 @@
 import 'package:flick/config/app_config.dart';
-import 'package:flick/presentation/movie_screen/controller/cast_crew_controller.dart';
 import 'package:flick/presentation/movie_screen/controller/movie_controller.dart';
+import 'package:flick/repository/api/movie_screen/model/cast_crew_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -20,17 +20,22 @@ class MovieDetailsScreen extends StatefulWidget {
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   fetchData() {
     Provider.of<MovieController>(context, listen: false).fetchMovieDetails(context, widget.movieID);
+    Provider.of<MovieController>(context, listen: false).fetchMovieCastCrew(context, widget.movieID);
   }
+
   @override
   void initState() {
     fetchData();
     super.initState();
   }
 
+  String? director;
+
   @override
   Widget build(BuildContext context) {
     DateFormat dateFormat = DateFormat("yyyy");
     return Consumer<MovieController>(builder: (context, controller, _) {
+
       return controller.isLoadingMD
           ? Center(child: CircularProgressIndicator())
           : SafeArea(
@@ -100,7 +105,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                           fontSize: 15,
                                           color: Colors.black,
                                           decoration: TextDecoration.none)),
-                                  Text("director!",
+                                  Text("$director",
                                       style: TextStyle(
                                           fontSize: 15,
                                           color: Colors.black,
@@ -146,33 +151,43 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                         TextButton(onPressed: () {}, child: Text("Crew", style: TextStyle(fontSize: 20))),
                       ],
                     )),
-                    Consumer<CastCrewController>(builder: (context, controller, _) {
+                    Consumer<MovieController>(builder: (context, controller, _) {
                       return SliverToBoxAdapter(
                         child: SizedBox(
                           height: 140,
                           width: MediaQuery.of(context).size.width,
                           child: ListView.builder(
-                            itemCount: 10,
+                            itemCount: controller.castCrewModel.cast?.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
+                              var castImage =
+                                  "${AppConfig.castCrewDP}${controller.castCrewModel.cast?[index].profilePath}";
+                              var castCharacter = controller.castCrewModel.cast?[index].character;
                               return Padding(
                                 padding: EdgeInsets.only(left: 10),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     CircleAvatar(
-                                        backgroundColor: Colors.black,
-                                        radius: 50,
-                                        child: Image(
-                                            image: NetworkImage(
-                                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQg9L8XPSAJIv9mDibNQ5rx5-RmzQd15As7tbwAQrtr5A&s"))),
+                                      backgroundColor: Colors.black,
+                                      radius: 50,
+                                      backgroundImage: controller.isLoadingCC
+                                          ? NetworkImage(
+                                              "https://i.pinimg.com/originals/2e/60/07/2e60079f1e36b5c7681f0996a79e8af4.jpg")
+                                          : controller.castCrewModel.cast?[index].profilePath == null
+                                              ? NetworkImage(
+                                                  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png")
+                                              : NetworkImage(castImage),
+                                    ),
                                     Text(
-                                      "cast", //TODO
+                                      controller.castCrewModel.cast?[index].name ?? "", //TODO
                                       style: TextStyle(
                                           fontSize: 15, color: Colors.black, decoration: TextDecoration.none),
                                     ),
                                     Text(
-                                      "department", //TODO
+                                      castCharacter!.length > 15
+                                          ? "${castCharacter.substring(0, 15)}.."
+                                          : castCharacter, //TODO
                                       style: TextStyle(
                                           fontSize: 15, color: Colors.black, decoration: TextDecoration.none),
                                     )
@@ -239,6 +254,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 ),
               ),
             );
+      
     });
   }
+  
 }

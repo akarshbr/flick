@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'category_expanded_screen.dart';
-import '../presentation/movie_details_screen/view/movie_details_screen.dart';
+import '../presentation/movie_screen/view/widgets/movie_details_screen.dart';
 
 class TitleAndCard extends StatelessWidget {
   const TitleAndCard(

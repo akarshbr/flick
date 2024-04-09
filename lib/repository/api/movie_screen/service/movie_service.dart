@@ -20,4 +20,13 @@ class MovieService {
       log("$e");
     }
   }
+
+  static Future<dynamic> fetchMovieCastCrew(apiKey, movieId) async {
+    try {
+      var decodedData = await ApiHelper.getData(endpoint: "movie/$movieId/credits?api_key=$apiKey");
+      return decodedData;
+    } catch (e) {
+      log("$e");
+    }
+  }
 }
