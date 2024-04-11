@@ -1,5 +1,5 @@
-import 'package:flick/presentation/movie_screen/view/widgets/movie_details_screen.dart';
 import 'package:flick/presentation/movie_screen/controller/movie_controller.dart';
+import 'package:flick/presentation/movie_screen/view/widgets/movie_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,12 +26,12 @@ class _MovieScreenState extends State<MovieScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MovieController>(builder: (context, movieController, _) {
-      return movieController.isLoading == true
+    return Consumer<MovieController>(builder: (context, controller, _) {
+      return controller.isLoading == true
           ? const Center(child: CircularProgressIndicator())
           : GridView.builder(
               shrinkWrap: true,
-              itemCount: movieController.movieModel.results?.length,
+              itemCount: controller.movieModel.results?.length,
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 200,
                 mainAxisSpacing: 10,
@@ -41,12 +41,15 @@ class _MovieScreenState extends State<MovieScreen> {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>MovieDetailsScreen(movieID: movieController.movieModel.results?[index].id)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                MovieDetailsScreen(movieID: controller.movieModel.results?[index].id)));
                   },
                   child: MovieSeriesCard(
-                    image:
-                        '${AppConfig.mediaUrlPoster}${Provider.of<MovieController>(context, listen: false).movieModel.results?[index].posterPath}',
-                  ),
+                      poster:
+                          '${AppConfig.mediaUrlPoster}${controller.movieModel.results?[index].posterPath}'),
                 );
               });
     });
