@@ -13,6 +13,7 @@ class MovieController extends ChangeNotifier {
   MovieModel movieModel = MovieModel();
   MovieDetailsModel movieDetailsModel = MovieDetailsModel();
   CastCrewModel castCrewModel = CastCrewModel();
+  bool isCast = true;
   bool isLoading = false;
   bool isLoadingMD = false;
   bool isLoadingCC = false;

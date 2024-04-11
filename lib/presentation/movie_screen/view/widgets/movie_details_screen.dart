@@ -1,10 +1,11 @@
 import 'package:flick/config/app_config.dart';
 import 'package:flick/presentation/movie_screen/controller/movie_controller.dart';
-import 'package:flick/repository/api/movie_screen/model/cast_crew_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../widgets/movie_details_eb.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
   const MovieDetailsScreen({super.key, required this.movieID});
@@ -35,7 +36,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   Widget build(BuildContext context) {
     DateFormat dateFormat = DateFormat("yyyy");
     return Consumer<MovieController>(builder: (context, controller, _) {
-
       return controller.isLoadingMD
           ? Center(child: CircularProgressIndicator())
           : SafeArea(
@@ -145,55 +145,81 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                       ),
                     ),
                     SliverToBoxAdapter(
-                        child: Row(
-                      children: [
-                        TextButton(onPressed: () {}, child: Text("Cast", style: TextStyle(fontSize: 20))),
-                        TextButton(onPressed: () {}, child: Text("Crew", style: TextStyle(fontSize: 20))),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  Provider.of<MovieController>(context, listen: false).isCast = true;
+                                });
+                              },
+                              child: Text("Cast", style: TextStyle(fontSize: 20))),
+                          TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  Provider.of<MovieController>(context, listen: false).isCast = false;
+                                });
+                              },
+                              child: Text("Crew", style: TextStyle(fontSize: 20))),
+                        ],
+                      ),
+                    ),
                     Consumer<MovieController>(builder: (context, controller, _) {
                       return SliverToBoxAdapter(
                         child: SizedBox(
                           height: 140,
                           width: MediaQuery.of(context).size.width,
                           child: ListView.builder(
-                            itemCount: controller.castCrewModel.cast?.length,
+                            itemCount: controller.isCast
+                                ? (controller.castCrewModel.cast?.length)
+                                : (controller.castCrewModel.crew?.length),
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
-                              var castImage =
-                                  "${AppConfig.castCrewDP}${controller.castCrewModel.cast?[index].profilePath}";
-                              var castCharacter = controller.castCrewModel.cast?[index].character;
-                              return Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundColor: Colors.black,
-                                      radius: 50,
-                                      backgroundImage: controller.isLoadingCC
-                                          ? NetworkImage(
-                                              "https://i.pinimg.com/originals/2e/60/07/2e60079f1e36b5c7681f0996a79e8af4.jpg")
-                                          : controller.castCrewModel.cast?[index].profilePath == null
-                                              ? NetworkImage(
-                                                  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png")
-                                              : NetworkImage(castImage),
-                                    ),
-                                    Text(
-                                      controller.castCrewModel.cast?[index].name ?? "", //TODO
-                                      style: TextStyle(
-                                          fontSize: 15, color: Colors.black, decoration: TextDecoration.none),
-                                    ),
-                                    Text(
-                                      castCharacter!.length > 15
-                                          ? "${castCharacter.substring(0, 15)}.."
-                                          : castCharacter, //TODO
-                                      style: TextStyle(
-                                          fontSize: 15, color: Colors.black, decoration: TextDecoration.none),
-                                    )
-                                  ],
-                                ),
-                              );
+                              var castImage = controller.isCast
+                                  ? "${AppConfig.castCrewDP}${controller.castCrewModel.cast?[index].profilePath}"
+                                  : "${AppConfig.castCrewDP}${controller.castCrewModel.crew?[index].profilePath}";
+                              var castCharacter = controller.isCast
+                                  ? (controller.castCrewModel.cast?[index].character ?? "")
+                                  : (controller.castCrewModel.crew?[index].job ?? "");
+                              return controller.isLoadingCC
+                                  ? Center(child: CircularProgressIndicator())
+                                  : Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundColor: Colors.black,
+                                            radius: 50,
+                                            backgroundImage: controller.isLoadingCC
+                                                ? NetworkImage(AppConfig.loadingImage)
+                                                : controller.castCrewModel.cast?[index].profilePath == null ||
+                                                        controller.castCrewModel.crew?[index].profilePath ==
+                                                            null
+                                                    ? NetworkImage(AppConfig.noImage)
+                                                    : NetworkImage(castImage),
+                                          ),
+                                          Text(
+                                            controller.isCast
+                                                ? (controller.castCrewModel.cast?[index].name ?? "")
+                                                : (controller.castCrewModel.crew?[index].name ?? ""),
+                                            style: TextStyle(
+                                                fontSize: 13,
+                                                color: Colors.black,
+                                                decoration: TextDecoration.none),
+                                          ),
+                                          Text(
+                                            castCharacter.length > 15
+                                                ? "${castCharacter.substring(0, 15)}.."
+                                                : castCharacter,
+                                            style: TextStyle(
+                                                fontSize: 13,
+                                                color: Colors.black,
+                                                decoration: TextDecoration.none),
+                                          )
+                                        ],
+                                      ),
+                                    );
                             },
                           ),
                         ),
@@ -203,49 +229,19 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                       child: SizedBox(height: 10),
                     ),
                     SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text("Lets Talk About", style: TextStyle(fontSize: 30, color: Colors.white)),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
-                              minimumSize: Size.fromHeight(60),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                        ),
-                      ),
+                      child: MovieDetailsEB(text: "Watch Later"),
                     ),
                     SliverToBoxAdapter(
                       child: SizedBox(height: 10),
                     ),
                     SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text("Rating", style: TextStyle(fontSize: 30, color: Colors.white)),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
-                              minimumSize: Size.fromHeight(60),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                        ),
-                      ),
+                      child: MovieDetailsEB(text: "Already Watched"),
                     ),
                     SliverToBoxAdapter(
                       child: SizedBox(height: 10),
                     ),
                     SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text("Watch Later", style: TextStyle(fontSize: 30, color: Colors.white)),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
-                              minimumSize: Size.fromHeight(60),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                        ),
-                      ),
+                      child: MovieDetailsEB(text: "Favorites"),
                     ),
                     SliverToBoxAdapter(
                       child: SizedBox(height: 10),
@@ -254,8 +250,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 ),
               ),
             );
-      
     });
   }
-  
 }
