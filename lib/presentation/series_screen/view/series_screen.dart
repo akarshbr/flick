@@ -41,7 +41,7 @@ class _SeriesScreenState extends State<SeriesScreen> {
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SeriesDetailsScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SeriesDetailsScreen(seriesId: controller.seriesModel.results?[index].id,)));
               },
               child: MovieSeriesCard(
                   poster:

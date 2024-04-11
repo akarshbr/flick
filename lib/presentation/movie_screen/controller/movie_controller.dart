@@ -5,7 +5,7 @@ import 'package:flick/core/utils/app_utils.dart';
 import 'package:flick/repository/api/movie_screen/service/movie_service.dart';
 import 'package:flutter/material.dart';
 
-import '../../../repository/api/movie_details_screen/model/movie_details_model.dart';
+import '../../../repository/api/movie_screen/model/movie_details_model.dart';
 import '../../../repository/api/movie_screen/model/cast_crew_model.dart';
 import '../../../repository/api/movie_screen/model/movie_model.dart';
 
